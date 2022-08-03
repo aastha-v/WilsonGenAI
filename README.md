@@ -10,7 +10,7 @@ WilSonGenAI has been created to facilitate the classification of variants of unc
 Download and install the latest version of [Anaconda](https://docs.anaconda.com/anaconda/install/linux/). Additionally, download and install [ANNOVAR](https://annovar.openbioinformatics.org/en/latest/user-guide/download/) and [Loftee](https://github.com/konradjk/loftee) for hg38.
 
 
-## Create and activate the wilsongen-ai conda environment:
+Create and activate the wilsongen-ai conda environment:
 ```
 conda env create -f wilsongen-ai.yml
 conda activate wilsongen-ai
