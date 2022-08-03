@@ -8,6 +8,7 @@ WilSonGenAI has been created to facilitate the classification of variants of unc
 
 ## Installation
 Download and install the latest version of [Anaconda](https://docs.anaconda.com/anaconda/install/linux/). Additionally, download and install [ANNOVAR](https://annovar.openbioinformatics.org/en/latest/user-guide/download/) and [Loftee](https://github.com/konradjk/loftee) for hg38.
+Note: Our pipeline has been standardized on Ubuntu 18.04.6 LTS. 
 
 
 Create and activate the wilsongen-ai conda environment:
