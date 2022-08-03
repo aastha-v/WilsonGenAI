@@ -2,15 +2,15 @@
 Protocol for classifying ATP7B gene linked variants causing Wilson's Disease using two AI models.
 
 
-##About
+## About
 WilSonGenAI has been created to facilitate the classification of variants of uncertain significance. We trained two models on a one-of-its kind database comprising of gold-standard variants classified by ACMG/AMP Guidelines.  The two algorithms used are TabNet, a deep learning algorithm designed particularly for tabular data, and XGBoost, since traditionally tree ensemble models are relied on for tabular data classification. This README document illustrates the installation, preprocessing and procedure for running both the models.
 
 
-##Installation
+## Installation
 Download and install the latest version of [Anaconda](https://docs.anaconda.com/anaconda/install/linux/). Additionally, download and install [ANNOVAR](https://annovar.openbioinformatics.org/en/latest/user-guide/download/) and [Loftee](https://github.com/konradjk/loftee) for hg38.
 
 
-##Create and activate the wilsongen-ai conda environment:
+## Create and activate the wilsongen-ai conda environment:
 ```
 conda env create -f wilsongen-ai.yml
 conda activate wilsongen-ai
@@ -45,8 +45,8 @@ python3 preprocessing_pipeline.py.
 This will result in an output file called pipeline.csv. It can now be used as the input for both the models.
 
 
-##Creating the Model
+## Creating the Model
 The TabNet model can be run using the script tabnet.py, and the XGBoost model using xg_boost.py in the tabnet and xgboost folders respectively.
 
-##Predictions
+## Predictions
 Predictions can be made using our model on the user data after processing the VCF into pipelie.py as discussed above, and leaving the "Outcome" column blank. The script predict_tabnet.py can be used to run TabNet and predict_xg_boost.py to run XGBoost to obtain predictions rerspectively. 
