@@ -7,47 +7,54 @@ WilSonGenAI has been created to facilitate the classification of variants of unc
 
 
 ## Installation
-Download and install the latest version of [Anaconda](https://docs.anaconda.com/anaconda/install/linux/). Additionally, download and install [ANNOVAR](https://annovar.openbioinformatics.org/en/latest/user-guide/download/) and [Loftee](https://github.com/konradjk/loftee) for hg38.
+Download and install the latest version of [Anaconda](https://docs.anaconda.com/anaconda/install/linux/). Next, download and install [ANNOVAR](https://annovar.openbioinformatics.org/en/latest/user-guide/download/) and [Loftee](https://github.com/konradjk/loftee) for hg38 by clicking on the following link. **Around 100GB free space would be required to download the file, and around 400GB would be needed for the unzipped folder.**
 Note: Our pipeline has been standardized on Ubuntu 18.04.6 LTS. 
-
-
-Create and activate the wilsongen-ai conda environment:
 ```
-conda env create -f wilsongen-ai.yml
-conda activate wilsongen-ai
+###
 ```
 
-Prepare your VCF file as shown in the sample.vcf file. Please do not Add "chr" in front of the chromosome number.
-
-Run Annovar on the VCF using the following commands:
+Unzip the folder and install the tools using the following commands:
 ```
-convert2annovar.pl --format vcf4 sample.vcf --outfile res.avinput --includeinfo --withzyg
-
-table_annovar.pl res.avinput PATH_TO/humandb --buildver hg38 --outfile res --protocol refGene,gnomad30_genome,esp6500siv2_all,gme,AFR.sites.2015_08,AMR.sites.2015_08,ALL.sites.2015_08,EAS.sites.2015_08,EUR.sites.2015_08,SAS.sites.2015_08,mcap,revel,avsnp150,clinvar_20210501,dbnsfp42a --operation g,f,f,f,f,f,f,f,f,f,f,f,f,f,f --nastring . --otherinfo
-
-awk -F"\t" 'OFS="\t" {print $157":"$158":"$160":"$161, $0}' res.hg38_multianno.txt | sed 's/^chr//g' - | sed 's/Otherinfo4:Otherinfo5:Otherinfo7:Otherinfo8/ID/g' > multianno_processed
+tar -xvzf ML_install.tar.gz
+cd ML_install
+bash INSTALL.sh
 ```
 
-Next, sort your VCF and run Loftee using the following command and prepare the output file as follows:
+Next, place this repository inside the unzipped folder:
 ```
-vcf-sort sample.vcf > sorted.vcf
-
-nohup vep --format vcf --species homo_sapiens --merged --dir_plugin PATH_TO/vep_data/Plugins --dir_cache PATH_TO/vep_data/ --assembly GRCh38 --cache --offline --sift b --ccds --uniprot --hgvs --symbol --numbers --domains --gene_phenotype --canonical --protein --biotype --uniprot --tsl --pubmed --variant_class --shift_hgvs 1 --check_existing --total_length --allele_number --no_escape --xref_refseq --failed 1 --vcf --minimal --flag_pick_allele --pick_order canonical,tsl,biotype,rank,ccds,length --polyphen b --af --af_1kg --af_esp --af_gnomad --max_af --mane --appris --regulatory --exclude_predicted --fasta PATH_TO/vep_data/homo_sapiens_merged/106_GRCh38/Homo_sapiens.GRCh38.dna.toplevel.fa --input_file sorted.vcf --output_file lof_sorted.vcf --plugin LoF,loftee_path:PATH_TO/vep_data/Plugins,human_ancestor_fa:PATH_TO/vep_data/loftee_grch38/human_ancestor.fa.gz,conservation_file:PATH_TO/vep_data/loftee_grch38/loftee.sql,gerp_bigwig:PATH_TO/vep_data/loftee_grch38/gerp_conservation_scores.homo_sapiens.GRCh38.bw
-
-awk -F"\t" 'OFS="\t" {print $1":"$2":"$4":"$5, $8}' lof_sorted.vcf | awk -F['\t,'] 'OFS="\t" { for(i=2;i<=NF;i++) print $1, $i}' - | sed 's/|/\t/g' - | awk -F"\t" 'OFS="\t" {if($29 == "YES" && $80 == "HC" && $30 ~ "NM_") print $1,"1"}' - | awk 'BEGIN{print "ID\tLoF_HC_Canonical"}1' - | sed 's/^chr//g' - > op_lof
+git clone https://github.com/aastha-v/WilsonGenAI.git
 ```
 
-Place the resulting files multianno_processed and op_lof in the preprocessing folder. Next, create a file called "op_outcome" and place it in the same folder. This file should contain two columns, namely "ID" containing your variant in "Chr:Start:Ref"Alt" format, and "Outcome", describing whether the variant is Pathogenic (1) or Benign (0). A sample op_outcome file is attached.
-
-Now run the python script preprocessing_pipeline.py, using the command:
+Now create and activate the wilsongen-ai conda environment:
 ```
-python3 preprocessing_pipeline.py.
+conda env create -f WilsonGenAI/wilsongenai.yml
+conda activate wilsongenai
 ```
-This will result in an output file called pipeline.csv. It can now be used as the input for both the models.
 
+## Preprocessing
+Prepare your VCF file as shown in the WilsonGenAI/input_folder/sample.vcf file. Please do not Add "chr" in front of the chromosome number.
+To process the VCF into the appropriate input format for either creating or using the pre-generated model, run the following command. This will generate a file called 'pipeline.csv', and place it in both the WilsonGenAI/tabnet and WilsonGenAI/xgboost folders. 
+```
+bash WilsonGenAI/scripts/preprocessing.sh
+```
 
-## Creating the Model
-The TabNet model can be run using the script tabnet.py, and the XGBoost model using xg_boost.py in the tabnet and xgboost folders respectively.
+To process a VCF with a different name than "sample.vcf", modify line 4 of the preprocessing.sh script and then run it:
+```
+input_filename='myvcf.vcf'
+```
 
-## Predictions
-Predictions can be made using our model on the user data after processing the VCF into pipelie.py as discussed above, and leaving the "Outcome" column blank. The script predict_tabnet.py can be used to run TabNet and predict_xg_boost.py to run XGBoost to obtain predictions rerspectively. 
+## Using Pre-Generated Models
+To generate predictions using our models for both tabnet and xgboost, run the following commands. Each command will generate a file called predictions_xgboost and predictions_tabnet in the xgboost and tabnet folders respectively. The "Prediction" column bears the final predictions: '0' denotes Benign and '1' denotes Pathogenic.
+```
+python3 WilsonGenAI/xgboost/predict_xg_boost.py 
+python3 WilsonGenAI/tabnet/predict_tabnet.py 
+```
+
+## Generating a Model
+In order to train a new model based on ones own data, the following commands can be run. These will generate new models named xg_boost_model.txt and tabnet.model.zip respectively.
+```
+python3 WilsonGenAI/xgboost/xg_boost.py
+python3 WilsonGenAI/tabnet/tabnet.py
+```
+
+The folders in this repository bear output files for both models generated for the sample.vcf file for reference.
