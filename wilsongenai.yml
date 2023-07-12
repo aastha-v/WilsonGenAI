@@ -1,0 +1,21 @@
+name: wilsongenai
+dependencies:
+  - scikit-learn
+  - pandas
+  - matplotlib
+  - matplotlib-base
+  - numpy-base
+  - numpydoc
+  - spyder
+  - python=3.9.7=h12debd9_1
+  - pip:
+      - xgboost
+      - numpy
+      - sklearn
+      - matplotlib-inline
+      - seaborn
+      - spyder-kernels==2.3.3
+      - graphviz
+      - pytorch-tabnet
+      - torch
+prefix: /home/$USER/anaconda3/envs/wilsongenai
