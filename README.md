@@ -32,11 +32,16 @@ conda activate wilsongenai
 ```
 
 ## Preprocessing
-Prepare your VCF file as shown in the WilsonGenAI/input_folder/sample.vcf file. Please do not Add "chr" in front of the chromosome number.
+Prepare your VCF file as shown in the WilsonGenAI/input_folder/sample.vcf file and op_outcome file as shown in WilsonGenAI/input_folder/op_outcome. Please do not Add "chr" in front of the chromosome number. To run your own file, place both your vcf and op_outcome files in WilsonGenAI/input_folder.
 To process the VCF into the appropriate input format for either creating or using the pre-generated model, run the following command. This will generate a file called 'pipeline.csv', and place it in both the WilsonGenAI/tabnet and WilsonGenAI/xgboost folders. 
 ```
 bash WilsonGenAI/scripts/preprocessing.sh
 ```
+In case the command does not work, please try using absolute paths in the vep command in preprocessing.sh. If that does not work, or if the VEP plugin does not work, please run the following:
+```
+bash WilsonGenAI/troubeshooting.sh
+```
+
 
 To process a VCF with a different name than "sample.vcf", modify line 4 of the preprocessing.sh script and then run it:
 ```
