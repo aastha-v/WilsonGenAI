@@ -17,3 +17,5 @@ cpanm -l $PERL_BASE/cpanm Bio::DB::BigFile
 cpanm -l $PERL_BASE/cpanm List::MoreUtils
 cpanm -l $PERL_BASE/cpanm DBD::SQLite
 export PERL5LIB=$PERL5LIB:$PERL_BASE/cpanm/lib/perl5
+
+cd $cwd
