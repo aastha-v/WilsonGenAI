@@ -2,7 +2,7 @@
 
 #declare all working files/dirs
 input_filename='sample.vcf'
-preprocessing_foldername=$cwd/preprocessing/
+preprocessing_foldername=$cwd/WilsonGenAI/preprocessing/
 
 
 #export current working directory
@@ -34,18 +34,19 @@ export PERL5LIB=$PERL5LIB:$PERL_BASE/cpanm/lib/perl5
 #preprocessing
 cd $preprocessing_foldername
 rm *
-cp ../WilsonGenAI/input_folder/$input_filename $preprocessing_foldername
+cp ../input_folder/$input_filename $preprocessing_foldername
+cp ../input_folder/op_outcome $preprocessing_foldername
 vcf-sort $input_filename > sorted.vcf
 echo "File Sorted"
 
 
 #run lof command
-nohup vep --format vcf --species homo_sapiens --merged --dir_plugin /media/aastha/3ff896c5-f127-48f8-831d-16d83fc7b4f3/docker_stuff/wilsongen_final/loftee/vep_data/Plugins \
---dir_cache /media/aastha/3ff896c5-f127-48f8-831d-16d83fc7b4f3/docker_stuff/wilsongen_final/loftee/vep_data/ --assembly GRCh38 --cache --offline --sift b --ccds --uniprot --hgvs \
+nohup vep --format vcf --species homo_sapiens --merged --dir_plugin $VEP_DATA/Plugins \
+--dir_cache $VEP_DATA --assembly GRCh38 --cache --offline --sift b --ccds --uniprot --hgvs \
 --symbol --numbers --domains --gene_phenotype --canonical --protein --biotype --uniprot --tsl --pubmed --variant_class --shift_hgvs 1 --check_existing --total_length --allele_number \
 --no_escape --xref_refseq --failed 1 --vcf --minimal --flag_pick_allele --pick_order canonical,tsl,biotype,rank,ccds,length --polyphen b --af --af_1kg --af_esp --af_gnomad --max_af --mane \
---appris --regulatory --exclude_predicted --fasta /media/aastha/3ff896c5-f127-48f8-831d-16d83fc7b4f3/docker_stuff/wilsongen_final/loftee/vep_data/homo_sapiens_merged/106_GRCh38/Homo_sapiens.GRCh38.dna.toplevel.fa \
---plugin LoF,loftee_path:/media/aastha/3ff896c5-f127-48f8-831d-16d83fc7b4f3/docker_stuff/wilsongen_final/loftee/vep_data/Plugins,human_ancestor_fa:/media/aastha/3ff896c5-f127-48f8-831d-16d83fc7b4f3/docker_stuff/wilsongen_final/loftee/vep_data/loftee_grch38/human_ancestor.fa.gz,conservation_file:/media/aastha/3ff896c5-f127-48f8-831d-16d83fc7b4f3/docker_stuff/wilsongen_final/loftee/vep_data/loftee_grch38/loftee.sql,gerp_bigwig:/media/aastha/3ff896c5-f127-48f8-831d-16d83fc7b4f3/docker_stuff/wilsongen_final/loftee/vep_data/loftee_grch38/gerp_conservation_scores.homo_sapiens.GRCh38.bw \
+--appris --regulatory --exclude_predicted --fasta $VEP_DATA/homo_sapiens_merged/106_GRCh38/Homo_sapiens.GRCh38.dna.toplevel.fa \
+--plugin LoF,loftee_path:$VEP_DATA/Plugins,human_ancestor_fa:$VEP_DATA/loftee_grch38/human_ancestor.fa.gz,conservation_file:$VEP_DATA/loftee_grch38/loftee.sql,gerp_bigwig:$VEP_DATA/loftee_grch38/gerp_conservation_scores.homo_sapiens.GRCh38.bw \
 --input_file sorted.vcf --output_file lof_sorted.vcf --force_overwrite
 
 
@@ -75,5 +76,4 @@ cp *multianno* $preprocessing_foldername
 
 cd $preprocessing_foldername
 
-python3 ../WilsonGenAI/scripts/atp7b.py
-
+python3 ../scripts/atp7b.py
