@@ -49,7 +49,7 @@ print('Labels encoded ..')
 print(df.shape)
 
 #merge with external o/p files:
-outcome = read_csv("../WilsonGenAI/input_folder/op_outcome", sep="\t")
+outcome = read_csv("op_outcome", sep="\t")
 df = pd.merge(df, outcome, on='ID', how='left')
 print('Outcome successfully added ..')
 print(df.shape)
@@ -69,7 +69,7 @@ print("Protein start positions extracted and added ..")
 print(df.shape)
    
 #rearrange column names according to final order:
-df2 = read_csv('../WilsonGenAI/scripts/final_colnames.csv')
+df2 = read_csv('../scripts/final_colnames.csv')
 data2 = df2.columns.tolist()
 column_list = data2
 
@@ -92,6 +92,5 @@ print(shuffled_new.shape)
 
 #save file
 pd.DataFrame(shuffled_new).to_csv('pipeline.csv', index=False)
-pd.DataFrame(shuffled_new).to_csv('../WilsonGenAI/tabnet/pipeline.csv', index=False)
-pd.DataFrame(shuffled_new).to_csv('../WilsonGenAI/xgboost/pipeline.csv', index=False)
-
+pd.DataFrame(shuffled_new).to_csv('../tabnet/pipeline.csv', index=False)
+pd.DataFrame(shuffled_new).to_csv('../xgboost/pipeline.csv', index=False)
