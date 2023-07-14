@@ -1,8 +1,6 @@
 #!/bin/bash
 #More details at: https://asia.ensembl.org/info/docs/tools/vep/script/vep_download.html
 
-#export current working directory
-export cwd=$(pwd)
 #export lof paths
 export LOF="$cwd/loftee"
 export VEP_PATH=$LOF/vep
