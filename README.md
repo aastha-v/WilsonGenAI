@@ -7,10 +7,10 @@ WilSonGenAI has been created to facilitate the classification of variants of unc
 
 
 ## Installation
-Download and install the latest version of [Anaconda](https://docs.anaconda.com/anaconda/install/linux/). Next, download and install [ANNOVAR](https://annovar.openbioinformatics.org/en/latest/user-guide/download/) and [Loftee](https://github.com/konradjk/loftee) for hg38 by clicking on the following link. **Around 100GB free space would be required to download the file, and around 400GB would be needed for the unzipped folder.**
+Download and install the latest version of [Anaconda](https://docs.anaconda.com/anaconda/install/linux/). Next, download and install [ANNOVAR](https://annovar.openbioinformatics.org/en/latest/user-guide/download/) and [Loftee](https://github.com/konradjk/loftee) for hg38 through the following [link](https://clingen.igib.res.in/ML_install.tar.gz). **Around 100GB free space would be required to download the file, and around 400GB would be needed for the unzipped folder.**
 Note: Our pipeline has been standardized on Ubuntu 18.04.6 LTS. 
 ```
-[###](https://clingen.igib.res.in/ML_install.tar.gz)
+https://clingen.igib.res.in/ML_install.tar.gz
 ```
 
 Unzip the folder and install the tools using the following commands:
