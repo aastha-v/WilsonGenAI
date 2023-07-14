@@ -1,12 +1,12 @@
 #!/bin/bash
 
+#export current working directory
+export cwd=$(pwd)
+
 #declare all working files/dirs
 input_filename='sample.vcf'
 preprocessing_foldername=$cwd/WilsonGenAI/preprocessing/
 
-
-#export current working directory
-export cwd=$(pwd)
 
 #export lof paths
 export LOF="$cwd/loftee"
