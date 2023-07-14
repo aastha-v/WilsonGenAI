@@ -49,15 +49,20 @@ input_filename='myvcf.vcf'
 ## Using Pre-Generated Models
 To generate predictions using our models for both tabnet and xgboost, run the following commands. Each command will generate a file called predictions_xgboost and predictions_tabnet in the xgboost and tabnet folders respectively. The "Prediction" column bears the final predictions: '0' denotes Benign and '1' denotes Pathogenic.
 ```
-python3 WilsonGenAI/xgboost/predict_xg_boost.py 
-python3 WilsonGenAI/tabnet/predict_tabnet.py 
+cd WilsonGenAI/xgboost/
+python3 predict_xg_boost.py 
+cd WilsonGenAI/tabnet/
+python3 predict_tabnet.py 
 ```
 
 ## Generating a Model
 In order to train a new model based on ones own data, the following commands can be run. These will generate new models named xg_boost_model.txt and tabnet.model.zip respectively.
 ```
-python3 WilsonGenAI/xgboost/xg_boost.py
-python3 WilsonGenAI/tabnet/tabnet.py
+cd WilsonGenAI/xgboost/
+python3 xg_boost.py
+
+cd WilsonGenAI/tabnet/
+python3 tabnet.py
 ```
 
 The folders in this repository bear output files for both models generated for the sample.vcf file for reference.
