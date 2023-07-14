@@ -3,6 +3,7 @@
 #export current working directory
 export cwd=$(pwd)
 
+
 #declare all working files/dirs
 input_filename='sample.vcf'
 preprocessing_foldername=$cwd/WilsonGenAI/preprocessing/
@@ -62,9 +63,9 @@ echo "VCF copied to annovar folder"
 
 
 #run annovar
-../WilsonGenAI/scripts/convert2annovar.pl --format vcf4 $input_filename --outfile res.avinput --includeinfo --withzyg
+perl ../WilsonGenAI/scripts/convert2annovar.pl --format vcf4 $input_filename --outfile res.avinput --includeinfo --withzyg
 
-../WilsonGenAI/scripts/table_annovar.pl *.avinput ../humandb --buildver hg38 --outfile res \
+perl ../WilsonGenAI/scripts/table_annovar.pl *.avinput ../humandb --buildver hg38 --outfile res \
 --protocol refGene,gnomad30_genome,esp6500siv2_all,gme,AFR.sites.2015_08,AMR.sites.2015_08,ALL.sites.2015_08,EAS.sites.2015_08,EUR.sites.2015_08,SAS.sites.2015_08,mcap,revel,avsnp150,clinvar_20210501,dbnsfp42a \
 --operation g,f,f,f,f,f,f,f,f,f,f,f,f,f,f --nastring . --otherinfo
 
