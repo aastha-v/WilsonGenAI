@@ -41,7 +41,7 @@ bash WilsonGenAI/troubeshooting.sh
 ```
 
 
-To process a VCF with a different name than "sample.vcf", modify line 4 of the preprocessing.sh script and then run it:
+To process a VCF with a different name than "sample.vcf", modify line 9 of the preprocessing.sh script and then run it:
 ```
 input_filename='myvcf.vcf'
 ```
