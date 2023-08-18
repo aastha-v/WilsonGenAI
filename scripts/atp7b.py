@@ -13,7 +13,7 @@ subprocess.call(COMMAND, shell=True)
 print("Bedfile created")
 
 #Next, perform bedtools intersect to create input file for pfam 
-COMMAND = '''bedtools intersect -a mydata_wilsons.bed -b ../WilsonGenAI/scripts/pfam_all.bed -wa | awk -F"\t" 'OFS="\t" {print $4, "1"}' - | sort -u - | awk 'BEGIN{print "ID\tPfam_imp_domain"}1' - > op_pfam'''
+COMMAND = '''bedtools intersect -a mydata_wilsons.bed -b ../scripts/pfam_all.bed -wa | awk -F"\t" 'OFS="\t" {print $4, "1"}' - | sort -u - | awk 'BEGIN{print "ID\tPfam_imp_domain"}1' - > op_pfam'''
 subprocess.call(COMMAND, shell=True)
 print("Intersect file created\n")
 
